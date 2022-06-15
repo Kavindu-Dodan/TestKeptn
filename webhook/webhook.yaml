@@ -9,3 +9,21 @@ spec:
         - curl --request GET https://keptn.sh
       subscriptionID: 6b12ea30-1465-461a-bee9-23e00f42283c
       sendFinished: true
+    - type: sh.keptn.event.evaluation.triggered
+      requests:
+        - curl --request POST --data
+          '{"channel":"claus--{{.data.project}}","username":"keptn","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"*Keptn
+          Evaluation finished:*
+          "}},{"type":"section","text":{"type":"mrkdwn","text":"*Message:*"}},{"type":"section","text":{"type":"mrkdwn","text":"*Start
+          Time:*
+          "}},{"type":"section","text":{"type":"mrkdwn","text":"*Project:*
+          {{.data.project}} *Stage:* {{.data.stage}} *Service:*
+          {{.data.service}}\n*Details:* /evaluation/{{.shkeptncontext}}"}}]}'
+          https://hooks.slack.com/services/{{.env.secret_slack_slackhook}}
+      envFrom:
+        - name: secret_slack_slackhook
+          secretRef:
+            name: slack
+            key: slack-hook
+      subscriptionID: 988b9f03-7796-4feb-872b-d5e59ae11088
+      sendFinished: true
